@@ -40,6 +40,11 @@ void AMovingPlatform::Tick(float DeltaTime)
 	Moving(DeltaTime);
 }
 
+void AMovingPlatform::SetIsActivate(bool IsActivate)
+{
+	bIsActivate = IsActivate;
+}
+
 void AMovingPlatform::Moving(float dt)
 {
 	// 액터의 움직임을 서버와 클라이언트에서 모두하는것이아니고
@@ -49,16 +54,18 @@ void AMovingPlatform::Moving(float dt)
 	// 클라이언트가 단독적으로 업데이트한다면, 서버는 그것을 믿지않고 전달받지도 않음
 	if (HasAuthority() == false) return;
 
-	FVector _MovingDirection = (bGoingToTargetLocation) ? (MovingDirection.GetSafeNormal()) : (MovingDirection.GetSafeNormal() * -1);
-	CurMovingDistance += (_MovingDirection * MovingSpeed * dt).Size();
-	SetActorLocation(GetActorLocation() + _MovingDirection * MovingSpeed * dt);
+	if (bIsActivate) {
+		FVector _MovingDirection = (bGoingToTargetLocation) ? (MovingDirection.GetSafeNormal()) : (MovingDirection.GetSafeNormal() * -1);
+		CurMovingDistance += (_MovingDirection * MovingSpeed * dt).Size();
+		SetActorLocation(GetActorLocation() + _MovingDirection * MovingSpeed * dt);
 
-	if ((GetActorLocation() - StartLocation).Size() >= MovingDistance) {
-		FVector tmp = StartLocation;
-		StartLocation = TargetLocation;
-		TargetLocation = tmp;
+		if ((GetActorLocation() - StartLocation).Size() >= MovingDistance) {
+			FVector tmp = StartLocation;
+			StartLocation = TargetLocation;
+			TargetLocation = tmp;
 
-		bGoingToTargetLocation = !bGoingToTargetLocation;
-	}
+			bGoingToTargetLocation = !bGoingToTargetLocation;
+		}
+	}	
 }
 

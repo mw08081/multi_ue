@@ -23,7 +23,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* SM;
 
 
@@ -31,6 +31,9 @@ public:
 public:
 protected:
 private:
+	UPROPERTY(EditAnywhere)
+	bool bIsActivate = true;
+
 	UPROPERTY(EditAnywhere, Category = "Moving")
 	FVector MovingDirection;
 	UPROPERTY(EditAnywhere, Category = "Moving")
@@ -44,6 +47,7 @@ private:
 	FVector TargetLocation;
 
 public:
+	void SetIsActivate(bool IsActivate);
 protected:
 private:
 
