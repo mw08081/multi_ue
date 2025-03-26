@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Menu.h"
 #include "InGameMenu.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALPROJECT_2_1_API UInGameMenu : public UUserWidget
+class UNREALPROJECT_2_1_API UInGameMenu : public UMenu
 {
 	GENERATED_BODY()
 
@@ -18,14 +19,6 @@ protected:
 	//virtual bool Initialize() override;
 
 	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
-
-public:
-	void SetMenuInterface(class IMenuInterface* MenuInterface);
-	void Setup();
-protected:
-private:
-	class  IMenuInterface* MI;
 
 
 	UPROPERTY(meta = (BindWidget))

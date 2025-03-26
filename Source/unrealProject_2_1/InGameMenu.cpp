@@ -2,8 +2,7 @@
 
 
 #include "InGameMenu.h"
-
-
+#include "MenuInterface.h"
 #include "Components/Button.h"
 
 void UInGameMenu::NativeConstruct()
@@ -20,47 +19,25 @@ void UInGameMenu::NativeConstruct()
 	Btn_Quit->OnClicked.AddDynamic(this, &UInGameMenu::QuitGame);
 }
 
-void UInGameMenu::NativeDestruct()
-{
-	Super::NativeDestruct();
-	UE_LOG(LogTemp, Display, TEXT("Native Destruct()"));
-
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-
-	if (PlayerController == nullptr) return;
-	PlayerController->SetInputMode(FInputModeGameOnly());
-	PlayerController->bShowMouseCursor = false;
-}
-
-void UInGameMenu::SetMenuInterface(IMenuInterface* MenuInterface)
-{
-	this->MI = MenuInterface;
-}
-
-void UInGameMenu::Setup()
-{
-	FInputModeUIOnly InputModeData;
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	InputModeData.SetWidgetToFocus(this->TakeWidget());
-
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-
-	if (PlayerController == nullptr) return;
-	PlayerController->SetInputMode(InputModeData);
-	PlayerController->bShowMouseCursor = true;
-}
-
 void UInGameMenu::GoToGame()
 {
 	UE_LOG(LogTemp, Display, TEXT("GoToGame"));
+
+	if (MI == nullptr) return;
+	MI->GoToGame();
 }
 
 void UInGameMenu::GoToLobby()
 {
 	UE_LOG(LogTemp, Display, TEXT("GoToLobby"));
+	if (MI == nullptr) return;
+	MI->GoToLobby();
 }
 
 void UInGameMenu::QuitGame()
 {
 	UE_LOG(LogTemp, Display, TEXT("Quit Game"));
+
+	if (MI == nullptr) return;
+	MI->QuitGame();
 }

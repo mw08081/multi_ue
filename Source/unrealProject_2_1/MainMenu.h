@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 
+#include "Menu.h"
+
 
 #include "MainMenu.generated.h"
 
@@ -12,7 +14,7 @@
  * 
  */
 UCLASS()
-class UNREALPROJECT_2_1_API UMainMenu : public UUserWidget
+class UNREALPROJECT_2_1_API UMainMenu : public UMenu
 {
 	GENERATED_BODY()
 
@@ -20,16 +22,6 @@ protected:
 	//virtual bool Initialize() override;
 
 	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
-
-public:
-	void SetMenuInterface(class IMenuInterface* MenuInterface);
-	void Setup();
-protected:
-private:
-	class  IMenuInterface* MI;
-
-	
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Host;

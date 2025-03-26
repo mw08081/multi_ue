@@ -24,4 +24,8 @@ class UNREALPROJECT_2_1_API IMenuInterface
 public:
 	virtual void Host() =0;
 	virtual void Join(const FString& IPAddress) =0;
+
+	virtual void GoToGame() =0;
+	virtual void GoToLobby() =0;
+	virtual void QuitGame() =0;
 };

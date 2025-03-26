@@ -5,6 +5,8 @@
 
 #include "Engine/Engine.h"
 #include "Blueprint/UserWidget.h"
+
+#include "Kismet/KismetSystemLibrary.h"
 #include "MainMenu.h"
 #include "InGameMenu.h"
 
@@ -86,5 +88,28 @@ void UCustomGameInstance::LoadInGameMenu()
 	InGameMenu->AddToViewport();
 	InGameMenu->SetMenuInterface(this);
 	InGameMenu->Setup();
+}
+
+void UCustomGameInstance::GoToGame()
+{
+	InGameMenu->RemoveFromParent();
+}
+
+void UCustomGameInstance::GoToLobby()
+{
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	if (PlayerController == nullptr)return;
+
+	PlayerController->ClientTravel("/Game/Maps/Lobby", ETravelType::TRAVEL_Absolute);
+}
+
+void UCustomGameInstance::QuitGame()
+{
+	UKismetSystemLibrary::QuitGame(
+		GetWorld(),                                    // 현재 월드 객체
+		GetWorld()->GetFirstPlayerController(),       // 특정 플레이어 컨트롤러 (여기서는 첫 번째 플레이어)
+		EQuitPreference::Quit,                        // 종료 옵션 (Quit: 완전히 종료)
+		false                                         // 플랫폼 제한 무시 여부
+	);
 }
 

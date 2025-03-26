@@ -15,7 +15,6 @@ void UMainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	this->bIsFocusable = true;
 	UE_LOG(LogTemp, Display, TEXT("MainMenu Init!"));
 
 	if (Btn_Host == nullptr) return;
@@ -26,36 +25,6 @@ void UMainMenu::NativeConstruct()
 
 	if (Btn_Join_IP == nullptr) return;
 	Btn_Join_IP->OnClicked.AddDynamic(this, &UMainMenu::Join);
-}
-
-void UMainMenu::NativeDestruct()
-{
-	Super::NativeDestruct();
-	UE_LOG(LogTemp, Display, TEXT("Native Destruct()"));
-
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-
-	if (PlayerController == nullptr) return;
-	PlayerController->SetInputMode(FInputModeGameOnly());
-	PlayerController->bShowMouseCursor = false;
-}
-
-void UMainMenu::SetMenuInterface(IMenuInterface* MenuInterface)
-{
-	this->MI = MenuInterface;
-}
-
-void UMainMenu::Setup()
-{
-	FInputModeUIOnly InputModeData;
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	InputModeData.SetWidgetToFocus(this->TakeWidget());
-
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-
-	if (PlayerController == nullptr) return;
-	PlayerController->SetInputMode(InputModeData);
-	PlayerController->bShowMouseCursor = true;
 }
 
 void UMainMenu::HostServer()

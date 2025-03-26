@@ -28,7 +28,7 @@ public:
 protected:
 private:
 	TSubclassOf<class UMainMenu> WBP_MainMenuClass;
-	class UMainMenu* MainMenu;
+	class UMenu* MainMenu;
 
 
 public:
@@ -47,10 +47,14 @@ public:
 protected:
 private:
 	TSubclassOf<class UInGameMenu> WBP_InGameMenuClass;
-	class UInGameMenu* InGameMenu;
+	class UMenu* InGameMenu;
 
 public:
 	UFUNCTION(BlueprintCallable)
 	void LoadInGameMenu();
+
+	void GoToGame();
+	void GoToLobby();
+	void QuitGame();
 
 };

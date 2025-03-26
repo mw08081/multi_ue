@@ -5,6 +5,10 @@
 
 void UMenu::NativeConstruct()
 {
+	Super::NativeConstruct();
+	UE_LOG(LogTemp, Display, TEXT("Native Destruct()"));
+
+	this->bIsFocusable = true;
 }
 
 void UMenu::NativeDestruct()
@@ -21,9 +25,24 @@ void UMenu::NativeDestruct()
 
 void UMenu::SetMenuInterface(IMenuInterface* MenuInterface)
 {
+
+	UE_LOG(LogTemp, Display, TEXT("Menu: SetMenuInterface"));
 	this->MI = MenuInterface;
 }
 
 void UMenu::Setup()
 {
+	UE_LOG(LogTemp, Display, TEXT("Menu: Setup"));
+
+	FInputModeUIOnly UIOnlyInputModeData;
+	UIOnlyInputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	UIOnlyInputModeData.SetWidgetToFocus(this->TakeWidget());
+
+	FInputModeGameAndUI MultiInputModeData;
+	MultiInputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	MultiInputModeData.SetWidgetToFocus(this->TakeWidget());
+
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	PlayerController->SetInputMode(MultiInputModeData);
+	PlayerController->bShowMouseCursor = true;
 }
